@@ -81,11 +81,12 @@ def main():
                             pygame.mixer.music.unpause()
                             cursor.nodelay(True)
                             _curses.napms(1)
-                    elif key == QUIT_KEY:
-                            exit()
-                    elif key == NEXT_KEY:
-                        break
-                    _curses.napms(1)
+                elif key == QUIT_KEY:
+                    exit()
+                elif key == NEXT_KEY:
+                    pygame.mixer.music.stop()
+                    break
+                _curses.napms(1)
             
             pygame.time.wait
 
