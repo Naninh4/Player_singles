@@ -1,8 +1,7 @@
 import pygame
 import os
 import _curses
-   
-                         
+import random  
 
 # Configura a interface do usuário utilizando a biblioteca _curses. initscr() inicializa a tela padrão 
 # para o uso da biblioteca curses. noecho() desativa a exibição de caracteres digitados pelo usuário. 
@@ -29,23 +28,25 @@ PAUSE_KEY = ord(' ')
 NEXT_KEY = ord('n')
 STOP_KEY = ord('s')
 QUIT_KEY = ord('q')
-
-folder = r'C:\Users\Livia Saturno\Videos\4K Video Downloader\\'
-music_list = os.listdir(folder)
+RANDOM_KEY = ord('r')
+NUMERIC_KEY = ord('o')
+folder = r'Musicas\\'
 
 
 # Inicializa o mixer do pygame
 pygame.mixer.init()
 
-cursor.nodelay(True)
-def main():
-# iterar sobre os arquivos na pasta de música
-    for nome_arquivo in os.listdir(folder):
+def main(music_list):
+    cursor.nodelay(True)
+   
+    print(music_list)
+    for nome_arquivo in music_list:
         musica = os.path.join(folder, nome_arquivo)
     
         # verificar se o arquivo é uma música suportada pelo pygame
         if nome_arquivo.endswith('.mp3') or nome_arquivo.endswith('.ogg') or nome_arquivo.endswith('.wav'):
             print(f'Tocando {nome_arquivo}...')
+
             cursor.clear()
             cursor.addstr(0, 0, 'Player de Música')
             cursor.addstr(2, 0, 'Teclas de Controle:')
@@ -55,7 +56,7 @@ def main():
             cursor.addstr(6, 4, 'N: Passar música')
 
             cursor.refresh()
-            
+            cursor.nodelay(True)
             key = cursor.getch() 
 
             # Carrega o arquivo de áudio
@@ -91,4 +92,17 @@ def main():
             pygame.time.wait
 
 # Começa a tocar a primeira música
-main()
+cursor.addstr(0, 0, 'Player de Música')
+cursor.addstr(2, 0, 'Teclas de Controle:')
+cursor.addstr(3, 4, 'R: Aleatório')
+cursor.addstr(4, 4, 'O: Ordem Numérica')
+cursor.refresh()
+key = cursor.getch() 
+music_list = os.listdir(folder)
+if key == RANDOM_KEY:
+    music_list = os.listdir(folder)
+    random.shuffle(music_list)
+    main(music_list)
+elif key == NUMERIC_KEY:
+    music_list = os.listdir(folder)
+    main(music_list)
