@@ -1,22 +1,22 @@
 import pygame
 import os
-import _curses
+import curses
 import random  
 
-# Configura a interface do usuário utilizando a biblioteca _curses. initscr() inicializa a tela padrão 
+# Configura a interface do usuário utilizando a biblioteca curses. initscr() inicializa a tela padrão 
 # para o uso da biblioteca curses. noecho() desativa a exibição de caracteres digitados pelo usuário. 
 # cbreak() habilita o modo de entrada cbreak, que permite que as teclas digitadas pelo usuário sejam 
 # imediatamente enviadas ao programa. keypad(True) habilita o teclado do terminal.
 
 #inicializando a bib curses
 
-cursor = _curses.initscr()
+cursor = curses.initscr()
 
 #desativando a exibição de caracteres digitados pelo usuário
-_curses.noecho()
+curses.noecho()
 
 #Permite que as teclas digitadas pelo usuário sejam imediatamente emviadas para o programa
-_curses.cbreak()
+curses.cbreak()
 
 #habilita o teclado do terminal
 cursor.keypad(True)
@@ -61,33 +61,34 @@ def main(music_list):
 
             # Carrega o arquivo de áudio
             pygame.mixer.music.load(musica)
-            pygame.mixer.music.set_volume(1.0)
+            pygame.mixer.music.set_volume(0.2)
             print(pygame.mixer.music.get_volume())
             # Inicia a reprodução do arquivo
             pygame.mixer.music.play()
 
             while pygame.mixer.music.get_busy():
-                cursor.addstr(8, 3, f'\nReproduzindo... "{nome_arquivo}"\n')
+                cursor.addstr(1, 3, f'Reproduzindo... "{nome_arquivo}" ',)
+                cursor.refresh()
                 key = cursor.getch()
                 if key == PAUSE_KEY:
                     cursor.nodelay(False)
                     # pygame.time.delay(5000)
                     pygame.mixer.music.pause()
                     key = cursor.getch()
-                    _curses.napms(1)
+                    curses.napms(1)
                     if key == PLAY_KEY:
                             cursor.nodelay(False)
                             #  espera um 5 segundos para executar o comando
                             #  pygame.time.delay(5000)
                             pygame.mixer.music.unpause()
                             cursor.nodelay(True)
-                            _curses.napms(1)
+                            curses.napms(1)
                 elif key == QUIT_KEY:
                     exit()
                 elif key == NEXT_KEY:
                     pygame.mixer.music.stop()
                     break
-                _curses.napms(1)
+                curses.napms(1)
             
             pygame.time.wait
 
